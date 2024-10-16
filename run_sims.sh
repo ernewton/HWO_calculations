@@ -1,8 +1,11 @@
-influencer='suppression'
-n_stars=(15 25 50 60)
+influencer='encouragement'
+n_stars=(50 100 200 400)
 for i in ${n_stars[@]};
 do
-    python likelihood.py $influencer $i &
+  for seed in {1..2};
+    do
+      python likelihood.py $influencer $i $seed &
+    done
 done
 
 echo "Running all scripts"

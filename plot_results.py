@@ -6,6 +6,15 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import glob
+import matplotlib as mpl
+
+mpl.rc('lines',linewidth = 1.5)
+mpl.rc('font',size = 12)
+mpl.rc('axes',labelsize = 14, linewidth=1.25)
+mpl.rc('xtick',labelsize = 14)
+mpl.rc('ytick',labelsize = 14)
+# enable math fonts
+mpl.rc('mathtext', default = 'regular')
 
 n_stars = np.array([50, 100, 200, 400])
 alphas = [0.2, 0.4, 0.6, 0.8]
@@ -40,7 +49,8 @@ for j, n_star in enumerate(n_stars):
     plt.ylabel('binomial statistic p-value')
 
 
-plt.savefig('results/{}_summary.png'.format(influencer, n_star), dpi=250) #f"results/summary_mu{mu_true}_sigma{sigma_true}.png", dpi=250)
+plt.tight_layout()
+plt.savefig('results/{}_summary.png'.format(influencer, n_star), dpi=250)
 plt.close()
 
 

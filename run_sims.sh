@@ -1,5 +1,5 @@
 influencer='encouragement'
-n_stars=(50 100 200 400)
+n_stars=(50 100 200)
 for i in ${n_stars[@]};
 do
   for seed in {1..2};

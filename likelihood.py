@@ -21,7 +21,7 @@ influencer = sys.argv[1]
 # set up parameters for the binary star distribution of a
 logmu = np.log10(40) # AU
 logsigma = 1.5 # log10(AU)
-trunc_low_loga = 1 # 10 AU, assume nothing closer is observed
+trunc_low_loga = 1.5 # 10 AU, assume nothing closer is observed
 trunc_high_loga = 3 # 10^4 AU is max a shown in Offner plot
 trunc_high = (trunc_high_loga-logmu)/logsigma # truncates at no. of sigma from loc
 trunc_low = (trunc_low_loga-logmu)/logsigma # truncates at no. of sigma from loc
@@ -62,14 +62,14 @@ if influencer == 'extrasuppression':
 
 elif influencer == 'encouragement':
     a_max_true = 10  # AU (suppression 100%)
-    a_outer_true = 200  # AU (suppression 0%)
+    a_outer_true = 500  # AU (suppression 0%)
 
     working_dir = "results/encouragement_p{}_ai{}_ao{}_nstars{}".format(
     single_detection_prob, int(a_max_true), int(a_outer_true), n_stars)
 
     def suppression_factor(a_values):
         results = np.ones_like(a_values)
-        results[a_values<np.log10(a_outer_true)] = 1.6
+        results[a_values<np.log10(a_outer_true)] = 2
         return results
 
         #results = 1.6 - np.abs( (a_values - np.log10(a_max_true)) )
@@ -118,7 +118,7 @@ plt.ylabel("no. of stars")
 plt.xlabel(r"$log_{10}(a)$ [au]")
 
 ax2 = ax.twinx()
-bin_edges = [1.,1.5, 2., 2.5, 3.]
+bin_edges = [1.5, 2., 2.5, 3.]
 bin_centers = bin_edges[:-1] + np.diff(bin_edges)/2.
 bin_widths = np.diff(bin_edges)/2.
 count_all, _ = np.histogram(a_values, bins=bin_edges)

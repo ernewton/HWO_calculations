@@ -9,7 +9,7 @@ from sbin import parameters
 
 
 def suppression_factor_simple(a_values):
-    a_inner_true = 10  # AU (suppression 100%)
+    a_inner_true = 20  # AU (suppression 100%)
     a_outer_true = 200  # AU (suppression 0%)
     results = (np.log10(a_values) - np.log10(a_inner_true)) / (np.log10(a_outer_true) - np.log10(a_inner_true))
     return np.clip(results, a_min=0, a_max=1)
@@ -49,7 +49,9 @@ def suppression_factor(a_values):
 
 
 
-def suppression_simulation(planets_cat, separations=None, join_on='KOI', prad_col='koi_prad'):
+def suppression_simulation(planets_cat, separations=None, 
+                           sup_function = suppression_factor,
+                           join_on='KOI', prad_col='koi_prad'):
     """
     Simulate the suppression of planet formation by stellar binaries. Return 
     the original (single-star host) planet population from ``planets_cat'',
@@ -64,6 +66,7 @@ def suppression_simulation(planets_cat, separations=None, join_on='KOI', prad_co
     separations : np.array, sort of optional
         Array-like list of binary star separations from which to draw, in 
         units of astronomical units.
+    sup_function : function name
     join_on : str, optional
         Column name used to merge the two catalogs (default ``'KOI'``).
     prad_col : str, optional
@@ -110,7 +113,7 @@ def suppression_simulation(planets_cat, separations=None, join_on='KOI', prad_co
     random_separations = random_separations + random_error
 
     # Suppress planet formation (per STAR)
-    suppression_cat['my_factor'] = suppression_factor(random_separations)
+    suppression_cat['my_factor'] = sup_function(random_separations)
 
     # Match STAR suppression to each PLANET
     # ``realization'' will hold the outcome of this simulation

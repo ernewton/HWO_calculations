@@ -5,3 +5,4 @@ results/*
 .ipynb_checkpoints/*
 __pycache__*
 sbin/__pycache__*
+.idea

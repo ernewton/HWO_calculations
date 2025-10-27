@@ -1,3 +1,7 @@
 results/*
 .DS_Store
 *.png
+*.pdf
+.ipynb_checkpoints/*
+__pycache__*
+sbin/__pycache__*

@@ -5,4 +5,4 @@ radius_valley = 1.7
 radius_limit = 4
 
 # upper limit on error to include
-max_radius_error = 0.15
+max_radius_error = 0.25

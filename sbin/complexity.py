@@ -54,7 +54,6 @@ def gap_complexity(periods):
         raise ValueError("C_gap is defined for N >= 3 planets")
     
     # Log‑period ratios between adjacent planets
-    print(periods)
     log_ratios = np.log(periods[1:] / periods[:-1])
 
     # Normalise to obtain p*
@@ -69,3 +68,20 @@ def gap_complexity(periods):
     K = 1./get_cmax(N-1)
 
     return -K * entropy * disequilibrium
+
+
+def ecdf_on_grid(sample, grid):
+    return np.searchsorted(np.sort(sample), grid, side='right') / sample.size
+
+def ecdf_confidence(samples):    
+    # ---------- ECDF on a common grid ----------
+    x_grid = np.sort(np.unique(np.concatenate(samples)))
+    ecdf_matrix = np.vstack([ecdf_on_grid(trial, x_grid) for trial in samples])
+
+    # ---------- Percentiles ----------
+    lower = np.percentile(ecdf_matrix, 16, axis=0)
+    upper = np.percentile(ecdf_matrix, 84, axis=0)
+    median = np.percentile(ecdf_matrix, 50, axis=0)
+    
+    return [x_grid, lower, median, upper]
+
